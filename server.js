@@ -1,18 +1,22 @@
 var express = require('express')
+var multer = require('multer')
+var bodyparser = require('body-parser')
+var path = require('path')
 
 var app = express()
+app.use(bodyparser.json())
 
 app.set('port', (process.env.PORT || 8080))
 
+app.set('views', path.join(__dirname, 'views'))
+app.set('view engine', 'pug')
 
 app.get('/', function (req, res) {
-    var headerInfo = {
-        'ipaddress': req.headers['x-forwarded-for'],
-        'language': req.headers['accept-language'].split(',')[0],
-        'software': req.headers['user-agent'].split('(')[1].split(')')[0]
-    }
-    
-    res.send(JSON.stringify(headerInfo))
+    res.render('index')
+})
+
+app.post('/', multer({dest: './uploads'}).single('upl'), function (req, res) {
+    res.send(JSON.stringify({"size": req.file.size}))
 })
 
 app.listen(app.get('port'), function () {

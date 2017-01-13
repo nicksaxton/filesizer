@@ -1,0 +1,12 @@
+html
+    head
+        title File Sizer
+    body
+        h1 File Sizer
+        p Select a file and click Submit to return its size in bytes.
+        
+        form(method="post",enctype="multipart/form-data",action="/")
+            p
+                input(type="file",name="upl")
+            p
+                input(type="submit")
